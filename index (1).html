@@ -1,0 +1,483 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Haaaa ✿</title>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet"/>
+  <style>
+    :root {
+      --pink: #e8607a;
+      --pink-light: #fdf0f2;
+      --pink-mid: #f2c4cc;
+      --text: #3a2030;
+      --text-soft: #7a5060;
+      --card: rgba(255,255,255,0.80);
+      --radius: 22px;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: 'Nunito', sans-serif;
+      background: var(--pink-light);
+      color: var(--text);
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+    body::before {
+      content: '';
+      position: fixed; inset: 0;
+      background:
+        radial-gradient(circle at 10% 20%, #fcd6de44 0%, transparent 50%),
+        radial-gradient(circle at 85% 75%, #f9b4c044 0%, transparent 50%),
+        radial-gradient(circle at 50% 50%, #fde8ec33 0%, transparent 70%);
+      z-index: 0; pointer-events: none;
+    }
+
+    /* NAVBAR */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 14px 40px;
+      background: rgba(255,255,255,0.75);
+      backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--pink-mid);
+    }
+    .nav-brand {
+      display: flex; align-items: center; gap: 12px;
+      text-decoration: none; cursor: pointer;
+    }
+    .nav-avatar {
+      width: 44px; height: 44px; border-radius: 50%;
+      border: 2.5px solid var(--pink);
+      overflow: hidden; background: var(--pink-mid);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 22px;
+    }
+    .nav-avatar img { width: 100%; height: 100%; object-fit: cover; }
+    .nav-name { font-family: 'DM Serif Display', serif; font-size: 1.1rem; color: var(--text); line-height: 1.2; }
+    .nav-sub { font-size: 0.72rem; color: var(--text-soft); font-weight: 700; letter-spacing: 0.03em; }
+    .nav-links { display: flex; align-items: center; gap: 4px; }
+    .nav-links a {
+      text-decoration: none; color: var(--text-soft); font-weight: 700;
+      font-size: 0.88rem; padding: 6px 14px; border-radius: 30px;
+      transition: all 0.2s; cursor: pointer;
+    }
+    .nav-links a:hover { color: var(--pink); }
+    .nav-links a.active { color: var(--pink); background: #fde8ec; }
+    .lang-btn {
+      background: var(--pink); color: white; border-radius: 30px;
+      padding: 6px 14px; font-weight: 800; font-size: 0.82rem;
+      cursor: pointer; border: none; font-family: 'Nunito', sans-serif;
+      transition: background 0.2s; margin-left: 4px;
+    }
+    .lang-btn:hover { background: #c44d65; }
+
+    /* MUSIC */
+    .music-btn {
+      position: fixed; bottom: 28px; right: 28px; z-index: 200;
+      width: 52px; height: 52px; border-radius: 50%;
+      background: var(--pink); border: none; cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
+      box-shadow: 0 4px 20px #e8607a44; font-size: 22px; color: white;
+      transition: transform 0.2s, background 0.2s;
+    }
+    .music-btn:hover { transform: scale(1.1); background: #c44d65; }
+    .music-btn.playing { animation: pulse 2s infinite; }
+    @keyframes pulse {
+      0%,100% { box-shadow: 0 4px 20px #e8607a44; }
+      50% { box-shadow: 0 4px 32px #e8607a88; }
+    }
+
+    /* PAGES */
+    .page { display: none; min-height: 100vh; padding-top: 80px; position: relative; z-index: 1; }
+    .page.active { display: block; }
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(22px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    .a0 { animation: fadeUp 0.55s ease both; }
+    .a1 { animation: fadeUp 0.55s ease 0.08s both; }
+    .a2 { animation: fadeUp 0.55s ease 0.16s both; }
+    .a3 { animation: fadeUp 0.55s ease 0.24s both; }
+    .a4 { animation: fadeUp 0.55s ease 0.32s both; }
+    .a5 { animation: fadeUp 0.55s ease 0.40s both; }
+
+    /* HOME */
+    #page-home {
+      display: none; flex-direction: column; align-items: center;
+      text-align: center; padding: 110px 20px 60px;
+    }
+    #page-home.active { display: flex; }
+    .home-avatar-wrap {
+      width: 172px; height: 172px; border-radius: 50%;
+      border: 5px solid white; box-shadow: 0 8px 40px #e8607a2a;
+      overflow: hidden; margin-bottom: 26px;
+      background: var(--pink-mid);
+      display: flex; align-items: center; justify-content: center; font-size: 68px;
+    }
+    .home-avatar-wrap img { width: 100%; height: 100%; object-fit: cover; }
+    .home-title {
+      font-family: 'DM Serif Display', serif;
+      font-size: clamp(1.9rem, 5vw, 2.8rem);
+      color: var(--pink); margin-bottom: 8px;
+    }
+    .home-kaomoji { font-size: 1rem; color: var(--text-soft); margin-bottom: 44px; }
+    .explore-label {
+      font-family: 'DM Serif Display', serif;
+      font-size: 1.35rem; color: var(--pink);
+      width: 100%; max-width: 560px; text-align: left; margin-bottom: 14px;
+    }
+    .cards { display: flex; flex-direction: column; gap: 14px; width: 100%; max-width: 560px; }
+    .card {
+      background: var(--card); border-radius: var(--radius);
+      padding: 24px 22px; cursor: pointer;
+      border: 1.5px solid transparent;
+      backdrop-filter: blur(10px);
+      box-shadow: 0 2px 18px #e8607a0d;
+      transition: all 0.25s;
+      display: flex; align-items: center; gap: 18px;
+    }
+    .card:hover {
+      border-color: var(--pink-mid);
+      box-shadow: 0 8px 28px #e8607a1a;
+      transform: translateY(-3px);
+    }
+    .card-icon { font-size: 2rem; flex-shrink: 0; width: 48px; text-align: center; }
+    .card-body { text-align: left; flex: 1; }
+    .card-title { font-family: 'DM Serif Display', serif; font-size: 1.15rem; color: var(--text); margin-bottom: 3px; }
+    .card-desc { color: var(--text-soft); font-size: 0.86rem; line-height: 1.5; }
+    .card-arrow { color: var(--pink-mid); font-size: 1.5rem; flex-shrink: 0; transition: transform 0.2s, color 0.2s; }
+    .card:hover .card-arrow { transform: translateX(4px); color: var(--pink); }
+
+    /* INNER PAGES */
+    .inner-page { max-width: 640px; margin: 0 auto; padding: 88px 28px 80px; }
+    .back-btn {
+      display: inline-flex; align-items: center; gap: 7px;
+      background: white; border: 1.5px solid var(--pink-mid);
+      color: var(--text-soft); font-weight: 700; font-size: 0.86rem;
+      padding: 8px 18px; border-radius: 30px; cursor: pointer;
+      text-decoration: none; margin-bottom: 28px;
+      transition: all 0.2s; font-family: 'Nunito', sans-serif;
+      border: 1.5px solid var(--pink-mid);
+    }
+    .back-btn:hover { border-color: var(--pink); color: var(--pink); background: #fde8ec; transform: translateX(-3px); }
+    .page-hero { display: flex; align-items: center; gap: 18px; margin-bottom: 28px; }
+    .page-hero-avatar {
+      width: 60px; height: 60px; border-radius: 50%;
+      border: 3px solid white; box-shadow: 0 2px 16px #e8607a22;
+      overflow: hidden; background: var(--pink-mid);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 26px; flex-shrink: 0;
+    }
+    .page-hero-avatar img { width: 100%; height: 100%; object-fit: cover; }
+    .page-heading { font-family: 'DM Serif Display', serif; font-size: 1.9rem; color: var(--pink); }
+    .page-heading-sub { color: var(--text-soft); font-size: 0.87rem; margin-top: 4px; }
+
+    /* SECTION CARD */
+    .section-card {
+      background: var(--card); border-radius: var(--radius);
+      padding: 24px 28px; margin-bottom: 16px;
+      backdrop-filter: blur(10px);
+      box-shadow: 0 2px 18px #e8607a0a;
+      border: 1.5px solid var(--pink-mid);
+    }
+    .section-card h3 {
+      font-family: 'DM Serif Display', serif; font-size: 1.05rem;
+      color: var(--pink); margin-bottom: 10px;
+      display: flex; align-items: center; gap: 8px;
+    }
+    .section-card p, .section-card li { color: var(--text-soft); line-height: 1.8; font-size: 0.92rem; }
+    .tag-list { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 10px; }
+    .tag {
+      background: #fde8ec; border: 1.5px solid var(--pink-mid);
+      color: var(--pink); font-size: 0.8rem; font-weight: 800;
+      padding: 4px 14px; border-radius: 20px;
+    }
+
+    /* CONTACT */
+    .contact-links { display: flex; flex-direction: column; gap: 12px; }
+    .contact-item {
+      background: var(--card); border-radius: var(--radius);
+      padding: 18px 24px; display: flex; align-items: center; gap: 16px;
+      text-decoration: none; border: 1.5px solid transparent;
+      backdrop-filter: blur(10px);
+      box-shadow: 0 2px 14px #e8607a0a;
+      transition: all 0.22s;
+    }
+    .contact-item:hover { border-color: var(--pink-mid); transform: translateX(5px); box-shadow: 0 4px 22px #e8607a1a; }
+    .contact-icon { font-size: 1.6rem; width: 44px; text-align: center; }
+    .contact-info strong { display: block; font-family: 'DM Serif Display', serif; font-size: 1rem; color: var(--text); }
+    .contact-info span { font-size: 0.83rem; color: var(--text-soft); }
+
+    /* CV */
+    .cv-box {
+      background: var(--card); border-radius: var(--radius);
+      padding: 36px 32px; text-align: center;
+      border: 1.5px solid var(--pink-mid);
+      backdrop-filter: blur(10px);
+    }
+    .cv-emoji { font-size: 3.5rem; margin-bottom: 16px; }
+    .cv-box p { color: var(--text-soft); font-size: 0.92rem; margin-bottom: 24px; line-height: 1.8; }
+    .cv-btn {
+      display: inline-flex; align-items: center; gap: 10px;
+      background: var(--pink); color: white;
+      font-family: 'Nunito', sans-serif; font-weight: 800;
+      font-size: 0.95rem; padding: 13px 32px; border-radius: 30px;
+      text-decoration: none; transition: all 0.2s;
+      box-shadow: 0 4px 16px #e8607a33;
+    }
+    .cv-btn:hover { background: #c44d65; transform: translateY(-2px); box-shadow: 0 6px 24px #e8607a44; }
+
+    /* FOOTER */
+    footer { text-align: center; padding: 28px 20px; color: var(--text-soft); font-size: 0.82rem; position: relative; z-index: 1; }
+
+    @media (max-width: 600px) {
+      nav { padding: 12px 16px; }
+      .nav-links a { font-size: 0.78rem; padding: 5px 9px; }
+      .inner-page { padding: 78px 18px 60px; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- Thay src bên dưới bằng link nhạc của bạn, ví dụ src="music.mp3" -->
+<audio id="bgMusic" loop>
+  <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mpeg"/>
+</audio>
+
+<!-- NAVBAR -->
+<nav>
+  <div class="nav-brand" onclick="goPage('home')">
+    <div class="nav-avatar">
+      <!-- Thay 🍓 bằng <img src="anh.jpg"> nếu có ảnh thật -->
+      🍓
+    </div>
+    <div>
+      <div class="nav-name">Haaaa</div>
+      <!-- Thay dòng dưới bằng ngành/tagline của bạn -->
+      <div class="nav-sub" id="nav-sub">Your tagline here</div>
+    </div>
+  </div>
+  <div class="nav-links">
+    <a id="nav-home" class="active" onclick="goPage('home')">Home</a>
+    <a id="nav-about" onclick="goPage('about')">About</a>
+    <a id="nav-contact" onclick="goPage('contact')">Contact</a>
+    <a id="nav-cv" onclick="goPage('cv')">CV</a>
+    <button class="lang-btn" id="langBtn" onclick="toggleLang()">VN</button>
+  </div>
+</nav>
+
+<!-- HOME -->
+<div class="page active" id="page-home">
+  <div class="home-avatar-wrap a0">🍓</div>
+  <h1 class="home-title a1" id="home-title">Hello — I'm Haaaa ✿</h1>
+  <p class="home-kaomoji a2">(" > ᴗ < ")</p>
+  <p class="explore-label a3" id="lbl-explore">Explore</p>
+  <div class="cards">
+    <div class="card a3" onclick="goPage('about')">
+      <div class="card-icon">🌸</div>
+      <div class="card-body">
+        <div class="card-title" id="c-about-t">About</div>
+        <div class="card-desc" id="c-about-d">Background, journey & experience.</div>
+      </div>
+      <div class="card-arrow">›</div>
+    </div>
+    <div class="card a4" onclick="goPage('contact')">
+      <div class="card-icon">💌</div>
+      <div class="card-body">
+        <div class="card-title" id="c-contact-t">Contact</div>
+        <div class="card-desc" id="c-contact-d">Email, GitHub, and more.</div>
+      </div>
+      <div class="card-arrow">›</div>
+    </div>
+    <div class="card a5" onclick="goPage('cv')">
+      <div class="card-icon">📄</div>
+      <div class="card-body">
+        <div class="card-title" id="c-cv-t">CV / Resume</div>
+        <div class="card-desc" id="c-cv-d">Download my resume.</div>
+      </div>
+      <div class="card-arrow">›</div>
+    </div>
+  </div>
+</div>
+
+<!-- ABOUT -->
+<div class="page" id="page-about">
+  <div class="inner-page">
+    <button class="back-btn a0" onclick="goPage('home')">← <span id="back-about">Back to Home</span></button>
+    <div class="page-hero a1">
+      <div class="page-hero-avatar">🍓</div>
+      <div>
+        <h2 class="page-heading" id="about-h">About me</h2>
+        <p class="page-heading-sub" id="about-s">A little bit about who I am ✿</p>
+      </div>
+    </div>
+    <div class="section-card a2">
+      <h3>🌸 <span id="ab-intro-t">Introduction</span></h3>
+      <!-- Thay đoạn này bằng giới thiệu của bạn -->
+      <p id="ab-intro-p">Hi! I'm Haaaa — write something about yourself here. What do you study? What are you passionate about? ✨</p>
+    </div>
+    <div class="section-card a3">
+      <h3>🎓 <span id="ab-edu-t">Education</span></h3>
+      <!-- Thay bằng trường và ngành của bạn -->
+      <p id="ab-edu-p">Your university · Your major · Year range</p>
+    </div>
+    <div class="section-card a4">
+      <h3>💡 <span id="ab-int-t">Interests</span></h3>
+      <!-- Thay bằng sở thích của bạn -->
+      <div class="tag-list">
+        <span class="tag">Reading</span>
+        <span class="tag">Music 🎵</span>
+        <span class="tag">Design</span>
+        <span class="tag">Photography</span>
+        <span class="tag">Coffee ☕</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- CONTACT -->
+<div class="page" id="page-contact">
+  <div class="inner-page">
+    <button class="back-btn a0" onclick="goPage('home')">← <span id="back-contact">Back to Home</span></button>
+    <div class="page-hero a1">
+      <div class="page-hero-avatar">🍓</div>
+      <div>
+        <h2 class="page-heading" id="contact-h">Contact</h2>
+        <p class="page-heading-sub" id="contact-s">Let's connect! ✉️</p>
+      </div>
+    </div>
+    <div class="contact-links">
+      <!-- Thay your@email.com bằng email của bạn -->
+      <a class="contact-item a2" href="mailto:your@email.com">
+        <div class="contact-icon">📧</div>
+        <div class="contact-info"><strong>Email</strong><span>your@email.com</span></div>
+      </a>
+      <!-- Thay yourusername bằng username GitHub -->
+      <a class="contact-item a3" href="https://github.com/yourusername" target="_blank">
+        <div class="contact-icon">🐙</div>
+        <div class="contact-info"><strong>GitHub</strong><span>github.com/yourusername</span></div>
+      </a>
+      <!-- Xóa nếu không dùng LinkedIn -->
+      <a class="contact-item a4" href="https://linkedin.com/in/yourusername" target="_blank">
+        <div class="contact-icon">💼</div>
+        <div class="contact-info"><strong>LinkedIn</strong><span>linkedin.com/in/yourusername</span></div>
+      </a>
+      <!-- Xóa nếu không dùng Instagram -->
+      <a class="contact-item a5" href="https://instagram.com/yourusername" target="_blank">
+        <div class="contact-icon">📸</div>
+        <div class="contact-info"><strong>Instagram</strong><span>@yourusername</span></div>
+      </a>
+    </div>
+    <!-- Thay địa chỉ/thông tin phụ của bạn -->
+    <p style="margin-top:20px;color:var(--text-soft);font-size:0.87rem;text-align:center;" id="contact-loc">Based in Vietnam — open to collaborations ✿</p>
+  </div>
+</div>
+
+<!-- CV -->
+<div class="page" id="page-cv">
+  <div class="inner-page">
+    <button class="back-btn a0" onclick="goPage('home')">← <span id="back-cv">Back to Home</span></button>
+    <div class="page-hero a1">
+      <div class="page-hero-avatar">📄</div>
+      <div>
+        <h2 class="page-heading" id="cv-h">CV / Resume</h2>
+        <p class="page-heading-sub" id="cv-s">Download my resume ✿</p>
+      </div>
+    </div>
+    <div class="cv-box a2">
+      <div class="cv-emoji">📋</div>
+      <!-- Thay đoạn mô tả bên dưới -->
+      <p id="cv-p">Here's my resume! Feel free to download and take a look. I'm always open to new opportunities and collaborations. 💗</p>
+      <!-- Thay cv.pdf bằng tên file CV sau khi upload lên GitHub -->
+      <a class="cv-btn" href="cv.pdf" download>
+        ⬇️ <span id="cv-btn">Download CV</span>
+      </a>
+    </div>
+  </div>
+</div>
+
+<footer>© 2025 Haaaa — Built with 💗 on GitHub Pages</footer>
+<button class="music-btn" id="musicBtn" onclick="toggleMusic()">🎵</button>
+
+<script>
+  // NAVIGATION
+  function goPage(name) {
+    document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+    document.querySelectorAll('.nav-links a').forEach(a => a.classList.remove('active'));
+    const pg = document.getElementById('page-' + name);
+    pg.classList.add('active');
+    pg.querySelectorAll('[class*="a"]').forEach(el => { el.style.animation='none'; el.offsetHeight; el.style.animation=''; });
+    const nav = document.getElementById('nav-' + name);
+    if (nav) nav.classList.add('active');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  // LANGUAGE
+  let lang = 'en';
+  const T = {
+    en: {
+      'nav-sub':'Your tagline here',
+      'home-title':"Hello — I'm Haaaa ✿",
+      'lbl-explore':'Explore',
+      'c-about-t':'About','c-about-d':'Background, journey & experience.',
+      'c-contact-t':'Contact','c-contact-d':'Email, GitHub, and more.',
+      'c-cv-t':'CV / Resume','c-cv-d':'Download my resume.',
+      'back-about':'Back to Home','back-contact':'Back to Home','back-cv':'Back to Home',
+      'about-h':'About me','about-s':'A little bit about who I am ✿',
+      'ab-intro-t':'Introduction','ab-intro-p':"Hi! I'm Haaaa — write something about yourself here. What do you study? ✨",
+      'ab-edu-t':'Education','ab-edu-p':'Your university · Your major · Year range',
+      'ab-int-t':'Interests',
+      'contact-h':'Contact','contact-s':"Let's connect! ✉️",
+      'contact-loc':'Based in Vietnam — open to collaborations ✿',
+      'cv-h':'CV / Resume','cv-s':'Download my resume ✿',
+      'cv-p':"Here's my resume! Feel free to download. I'm always open to new opportunities. 💗",
+      'cv-btn':'Download CV',
+    },
+    vn: {
+      'nav-sub':'Tagline của bạn ở đây',
+      'home-title':'Chào — Mình là Haaaa ✿',
+      'lbl-explore':'Khám phá',
+      'c-about-t':'Giới thiệu','c-about-d':'Xuất phát điểm, hành trình & kinh nghiệm.',
+      'c-contact-t':'Liên hệ','c-contact-d':'Email, GitHub và nhiều hơn nữa.',
+      'c-cv-t':'CV / Hồ sơ','c-cv-d':'Tải CV của mình.',
+      'back-about':'Quay về trang chủ','back-contact':'Quay về trang chủ','back-cv':'Quay về trang chủ',
+      'about-h':'Về mình','about-s':'Một chút về bản thân mình ✿',
+      'ab-intro-t':'Giới thiệu','ab-intro-p':'Chào! Mình là Haaaa — viết gì đó về bản thân ở đây nhé ✨',
+      'ab-edu-t':'Học vấn','ab-edu-p':'Tên trường · Chuyên ngành · Năm học',
+      'ab-int-t':'Sở thích',
+      'contact-h':'Liên hệ','contact-s':'Kết nối với mình nhé! ✉️',
+      'contact-loc':'Đang ở Việt Nam — sẵn sàng hợp tác ✿',
+      'cv-h':'CV / Hồ sơ','cv-s':'Tải CV của mình ✿',
+      'cv-p':'Đây là CV của mình! Bạn có thể tải về xem nhé. Mình luôn mở cửa với cơ hội mới 💗',
+      'cv-btn':'Tải CV',
+    }
+  };
+  function toggleLang() {
+    lang = lang === 'en' ? 'vn' : 'en';
+    document.getElementById('langBtn').textContent = lang === 'en' ? 'VN' : 'EN';
+    for (const [id, val] of Object.entries(T[lang])) {
+      const el = document.getElementById(id);
+      if (el) el.textContent = val;
+    }
+  }
+
+  // MUSIC
+  const audio = document.getElementById('bgMusic');
+  const mBtn = document.getElementById('musicBtn');
+  let playing = false;
+  window.addEventListener('load', () => {
+    audio.volume = 0.35;
+    audio.play().then(() => { playing=true; mBtn.textContent='🎶'; mBtn.classList.add('playing'); }).catch(()=>{});
+  });
+  document.addEventListener('click', function firstClick() {
+    if (!playing) { audio.play().then(()=>{ playing=true; mBtn.textContent='🎶'; mBtn.classList.add('playing'); }).catch(()=>{}); }
+    document.removeEventListener('click', firstClick);
+  }, { once: true });
+  function toggleMusic() {
+    if (playing) { audio.pause(); playing=false; mBtn.textContent='🎵'; mBtn.classList.remove('playing'); }
+    else { audio.play(); playing=true; mBtn.textContent='🎶'; mBtn.classList.add('playing'); }
+  }
+</script>
+</body>
+</html>
